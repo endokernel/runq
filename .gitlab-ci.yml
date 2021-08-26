@@ -23,7 +23,7 @@ services:
 before_script:
   - docker info
   - apk add --update curl make dpkg
-  
+  - cp /usr/local/bin/docker-init /usr/bin/docker-init
 build_runq:
   script:
     - curl -o kernel/linux-image-5.9.8-arch1-cet_5.9.8-arch1-cet-1_amd64.deb --location "https://www.gitlab.com/api/v4/projects/22309799/jobs/artifacts/newcetapi-5.9.8/raw/linux-image-5.9.8-arch1-cet_5.9.8-arch1-cet-1_amd64.deb?job=build&job_token=$CI_JOB_TOKEN"

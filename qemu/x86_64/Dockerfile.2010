@@ -1,12 +1,12 @@
-FROM ubuntu:20.04
+FROM ubuntu:18.04
 
 ENV RUNC_ROOT /runq/runc
 ENV RUNQ_ROOT /var/lib/runq
 ENV QEMU_ROOT /var/lib/runq/qemu
 
 ENV DEBIAN_FRONTEND noninteractive
-ENV GO_URL https://go.dev/dl/go1.21.10.linux-amd64.tar.gz
-ENV GO_SHA256 e330e5d977bf4f3bdc157bc46cf41afa5b13d66c914e12fd6b694ccda65fcf92
+ENV GO_URL https://golang.org/dl/go1.16.5.linux-amd64.tar.gz
+ENV GO_SHA256 b12c23023b68de22f74c0524f10b753e7b08b1504cb7e417eccebdd3fae49061
 ENV PATH /usr/local/go/bin:$PATH
 
 WORKDIR /runq
@@ -34,14 +34,13 @@ RUN set -eu; \
     rm -f go.tar.gz
 
 RUN mkdir -p \
-    $QEMU_ROOT/etc \
     $QEMU_ROOT/dev \
     $QEMU_ROOT/proc \
     $QEMU_ROOT/rootfs \
     $QEMU_ROOT/share \
     $QEMU_ROOT/sys
 
-COPY ./lib /usr/lib
+COPY ./lib /lib
 
 RUN    echo base  /lib/modules/5.9.8-arch1-cet/kernel/fs/fscache/fscache.ko                                > $QEMU_ROOT/kernel.conf \
     && echo base  /lib/modules/5.9.8-arch1-cet/kernel/net/9p/9pnet.ko                                     >> $QEMU_ROOT/kernel.conf \
@@ -58,19 +57,20 @@ RUN    echo base  /lib/modules/5.9.8-arch1-cet/kernel/fs/fscache/fscache.ko     
     && echo vsock /lib/modules/5.9.8-arch1-cet/kernel/net/vmw_vsock/vmw_vsock_virtio_transport.ko         >> $QEMU_ROOT/kernel.conf \
     && echo btrfs /lib/modules/5.9.8-arch1-cet/kernel/lib/libcrc32c.ko                                    >> $QEMU_ROOT/kernel.conf \
     && echo btrfs /lib/modules/5.9.8-arch1-cet/kernel/lib/raid6/raid6_pq.ko                               >> $QEMU_ROOT/kernel.conf \
-    && echo btrfs /lib/modules/5.9.8-arch1-cet/kernel/lib/zstd/zstd_compress.ko                           >> $QEMU_ROOT/kernel.conf \
     && echo btrfs /lib/modules/5.9.8-arch1-cet/kernel/crypto/xor.ko                                       >> $QEMU_ROOT/kernel.conf \
     && echo btrfs /lib/modules/5.9.8-arch1-cet/kernel/fs/btrfs/btrfs.ko                                   >> $QEMU_ROOT/kernel.conf \
     && echo xfs   /lib/modules/5.9.8-arch1-cet/kernel/lib/libcrc32c.ko                                    >> $QEMU_ROOT/kernel.conf \
     && echo xfs   /lib/modules/5.9.8-arch1-cet/kernel/fs/xfs/xfs.ko                                       >> $QEMU_ROOT/kernel.conf
 
 COPY ./vmlinuz-5.9.8-arch1-cet $QEMU_ROOT/kernel
+# RUN cp /boot/vmlinuz-*-generic $QEMU_ROOT/kernel
 
 RUN cp -d --preserve=all --parents \
   /usr/lib/x86_64-linux-gnu/* \
   $QEMU_ROOT/ 2>&1 | grep -v 'omitting directory';:
 
  RUN cp -a --parents \
+     /etc/mtab \
      /usr/bin/qemu-system-x86_64 \
      /usr/bin/rsync \
      /usr/lib64/ld-linux-x86-64.so.2 \
@@ -89,11 +89,7 @@ RUN cp -d --preserve=all --parents \
      $QEMU_ROOT/
 
 RUN cd $QEMU_ROOT \
-    && ln -s /proc/mounts etc/mtab \
     && ln -s usr/bin bin \
     && ln -s usr/lib64 lib64 \
     && ln -s usr/lib lib \
     && ln -s usr/sbin sbin
-
-RUN    git config --global --add safe.directory /runq \
-    && git config --global --add safe.directory /runq/runc

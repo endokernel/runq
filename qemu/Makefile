@@ -3,8 +3,11 @@ include ../make.rules
 all: image qemu.tar
 
 image:
+	cp ../kernel/out/boot/vmlinuz-5.9.8-arch1-cet ./$(ARCH)/vmlinuz-5.9.8-arch1-cet
+	mkdir -p ./$(ARCH)/lib
+	cp -r ../kernel/out/lib ./$(ARCH)
 	cd $(ARCH) && \
-	docker build -t $(BUILD_IMAGE) .
+	docker build -t $(BUILD_IMAGE) -f ./Dockerfile .
 
 qemu.tar:
 	docker run --rm $(BUILD_IMAGE) tar -C $(QEMU_ROOT) -cf - .  > qemu.tar

@@ -1,7 +1,7 @@
 build_runq:
   script:
     - 'curl -o kernel/linux-image-5.9.8-arch1-cet_5.9.8-arch1-cet-1_amd64.deb --location --header "PRIVATE-TOKEN: $CI_JOB_TOKEN" "https://gitlab.com/api/v4/projects/22309799/jobs/artifacts/newcetapi-5.9.8/raw/linux-image-5.9.8-arch1-cet_5.9.8-arch1-cet-1_amd64.deb?job=build"'
-    - ls ./kernel
+    - ls -l ./kernel
     - make -C kernel 
     - make release
   artifacts:

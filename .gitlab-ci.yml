@@ -22,7 +22,7 @@ services:
 
 before_script:
   - docker info
-  - apk add --update curl make dpkg
+  - apk add --update curl make dpkg git
   
 build_runq:
   script:
@@ -30,6 +30,7 @@ build_runq:
     - ls -l ./kernel
     - make -C kernel 
     - cp /usr/local/bin/docker-init /usr/bin/docker-init
+    - ls -l /usr/bin/
     - make release
   artifacts:
     paths:

@@ -1,0 +1,10 @@
+build_image:
+  script:
+    make image
+
+build_runq:
+  script:
+    make release
+  artifacts:
+    paths:
+      - runq-*.tar.gz

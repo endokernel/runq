@@ -21,11 +21,8 @@ jobs:
       - name: Display Docker Info
         run: docker info
 
-      - name: Display Docker Init version
-        run: docker-init
-
       - name: Show docker-init path
-        run: command -v docker-init
+        run: ls -l /usr/libexec/docker/docker-init
         
       - name: List Kernel Directory
         run: ls -l ./kernel
@@ -34,7 +31,7 @@ jobs:
         run: make -C kernel
 
       - name: Create Release
-        run: make DOCKER_INIT=$(command -v docker-init) release
+        run: make DOCKER_INIT=/usr/libexec/docker/docker-init release
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2

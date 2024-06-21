@@ -15,6 +15,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
         with:
+          submodules: 'true'
           lfs: 'true'
 
       - name: Display Docker version

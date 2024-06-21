@@ -20,6 +20,9 @@ jobs:
 
       - name: Display Docker version
         run: docker version
+
+      - name: Show docker-init path
+        run: which docker-init
         
       - name: List Kernel Directory
         run: ls -l ./kernel
@@ -28,7 +31,7 @@ jobs:
         run: make -C kernel
 
       - name: Create Release
-        run: make release
+        run: make DOCKER_INIT=$(which docker-init) release
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2

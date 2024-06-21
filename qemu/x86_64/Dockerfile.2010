@@ -34,6 +34,7 @@ RUN set -eu; \
     rm -f go.tar.gz
 
 RUN mkdir -p \
+    $QEMU_ROOT/etc \
     $QEMU_ROOT/dev \
     $QEMU_ROOT/proc \
     $QEMU_ROOT/rootfs \

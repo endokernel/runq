@@ -21,6 +21,9 @@ jobs:
       - name: Display Docker version
         run: docker version
 
+      - name: Display Docker Init version
+        run: docker-init
+
       - name: Show docker-init path
         run: command -v docker-init
         

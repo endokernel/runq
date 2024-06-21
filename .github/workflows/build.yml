@@ -18,8 +18,8 @@ jobs:
           submodules: 'true'
           lfs: 'true'
 
-      - name: Display Docker version
-        run: docker version
+      - name: Display Docker Info
+        run: docker info
 
       - name: Display Docker Init version
         run: docker-init

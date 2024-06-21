@@ -1,0 +1,34 @@
+name: Build Runq
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Display Docker version
+        run: docker version
+        
+      - name: List Kernel Directory
+        run: ls -l ./kernel
+
+      - name: Build Kernel
+        run: make -C kernel
+
+      - name: Create Release
+        run: make DOCKER_INIT=/usr/local/bin/docker-init release
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: runq-artifacts
+          path: runq-*.tar.gz

@@ -45,9 +45,10 @@ efficient. For this refer to section [Developing runq](#developing-runq).
 
 ```sh
 # get the runq and runc source code
-git clone --recurse-submodules https://github.com/gotoz/runq.git
+git clone --recurse-submodules https://github.com/endokernel/runq.git
 
 # compile and create a release tar file in a Docker container
+git lfs get
 cd runq
 make release
 

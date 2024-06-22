@@ -58,7 +58,6 @@ RUN    echo base  /lib/modules/5.9.8-arch1-cet/kernel/fs/fscache/fscache.ko     
     && echo vsock /lib/modules/5.9.8-arch1-cet/kernel/net/vmw_vsock/vmw_vsock_virtio_transport.ko         >> $QEMU_ROOT/kernel.conf \
     && echo btrfs /lib/modules/5.9.8-arch1-cet/kernel/lib/libcrc32c.ko                                    >> $QEMU_ROOT/kernel.conf \
     && echo btrfs /lib/modules/5.9.8-arch1-cet/kernel/lib/raid6/raid6_pq.ko                               >> $QEMU_ROOT/kernel.conf \
-    && echo btrfs /lib/modules/5.9.8-arch1-cet/kernel/lib/zstd/zstd_compress.ko                           >> $QEMU_ROOT/kernel.conf \
     && echo btrfs /lib/modules/5.9.8-arch1-cet/kernel/crypto/xor.ko                                       >> $QEMU_ROOT/kernel.conf \
     && echo btrfs /lib/modules/5.9.8-arch1-cet/kernel/fs/btrfs/btrfs.ko                                   >> $QEMU_ROOT/kernel.conf \
     && echo xfs   /lib/modules/5.9.8-arch1-cet/kernel/lib/libcrc32c.ko                                    >> $QEMU_ROOT/kernel.conf \

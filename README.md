@@ -43,13 +43,17 @@ The easiest way to build runq and to put all dependencies together is using Dock
 For fast development cycles a regular build environment might be more
 efficient. For this refer to section [Developing runq](#developing-runq).
 
+Make sure you have (Git LFS)[https://git-lfs.com/] installed before cloning the repository. 
+
 ```sh
 # get the runq and runc source code
 git clone --recurse-submodules https://github.com/endokernel/runq.git
 
 # compile and create a release tar file in a Docker container
-git lfs get
 cd runq
+cd kernel
+make
+cd ..
 make release
 
 # install runq to `/var/lib/runq`
